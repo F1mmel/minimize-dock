@@ -1,0 +1,59 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build macOS App
+    runs-on: macos-14
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Select Xcode
+        run: |
+          sudo xcode-select -s /Applications/Xcode_15.4.app || sudo xcode-select -s /Applications/Xcode_15.3.app || true
+          xcodebuild -version
+
+      - name: Build App
+        run: |
+          xcodebuild -project DockMinimize.xcodeproj \
+                     -scheme DockMinimize \
+                     -configuration Release \
+                     -derivedDataPath BuildData \
+                     -sdk macosx \
+                     CODE_SIGNING_ALLOWED=NO \
+                     CODE_SIGNING_REQUIRED=NO \
+                     CODE_SIGN_IDENTITY="" \
+                     build
+
+      - name: Prepare Release Asset
+        run: |
+          mv BuildData/Build/Products/Release/DockMinimize.app .
+          zip -r DockMinimize.zip DockMinimize.app
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: DockMinimize.zip
+          draft: false
+          prerelease: false
+          name: Release ${{ github.ref_name }}
+          body: |
+            Automated release of DockMinimize version ${{ github.ref_name }}.
+            
+            ### 🚦 Installation
+            1. Download the `DockMinimize.zip` asset below.
+            2. Unzip it and move `DockMinimize.app` to your `/Applications` folder.
+            3. Since this build is compiled on GitHub Actions without code signing certificates:
+               - To open the app the first time, **right-click (or control-click) the app icon** in Finder and select **Open**. Click **Open** again in the warning dialog.
+            4. Grant Accessibility Permissions in System Settings when prompted.
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
