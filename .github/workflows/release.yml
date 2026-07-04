@@ -2,6 +2,9 @@ name: Build and Release
 
 on:
   push:
+    branches:
+      - main
+      - master
     tags:
       - 'v*'
   workflow_dispatch:
@@ -40,6 +43,8 @@ jobs:
           zip -r DockMinimize.zip DockMinimize.app
 
       - name: Create Release
+        # Only run this step if we pushed a version tag starting with 'v'
+        if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v2
         with:
           files: DockMinimize.zip
