@@ -338,7 +338,7 @@ class AppManager: ObservableObject {
                     
                     // Minimize the active window of this application with a slight delay.
                     print("[DockMinimize Log] Match confirmed! App has visible windows. Minimizing active window of '\(activeName)' in 0.10s...")
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.10) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
                         self.minimizeActiveWindow(for: frontmostApp)
                     }
                 } else {
