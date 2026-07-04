@@ -1,5 +1,4 @@
 import SwiftUI
-import Playgrounds
 import ApplicationServices
 import ServiceManagement
 import Combine
@@ -724,12 +723,6 @@ struct SettingsView: View {
     }
 }
 
-// MARK: - Previews & Playground Macros
-
 #Preview {
     SettingsView()
-}
-
-#Playground {
-    _ = 1 + 2
 }
