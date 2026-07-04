@@ -4,10 +4,10 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>MinimizeApps.xcscheme_^#shared#^_</key>
+		<key>DockMinimize.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>0</integer>
+			<integer>1</integer>
 		</dict>
 		<key>MyApp.xcscheme_^#shared#^_</key>
 		<dict>
