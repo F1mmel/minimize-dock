@@ -260,7 +260,7 @@ class AppManager: ObservableObject {
         print("[DockMinimize Log] App activated: \(app.localizedName ?? "Unknown") (PID: \(app.processIdentifier))")
         
         // Delay slightly to allow AX elements to stabilize after app transition
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.20) {
             self.restoreMinimizedWindows(for: app)
         }
     }
@@ -338,7 +338,7 @@ class AppManager: ObservableObject {
                     
                     // Minimize the active window of this application with a slight delay.
                     print("[DockMinimize Log] Match confirmed! App has visible windows. Minimizing active window of '\(activeName)' in 0.10s...")
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.20) {
                         self.minimizeActiveWindow(for: frontmostApp)
                     }
                 } else {
@@ -472,7 +472,7 @@ class AppManager: ObservableObject {
         // or transitioning, wait 0.15s and retry up to 3 times.
         if error == .cannotComplete && retryCount < 3 {
             print("[DockMinimize Log] Failed to get window list of \(app.localizedName ?? "app") due to cannotComplete (-25204). Retrying in 0.15s... (Retry \(retryCount + 1)/3)")
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.20) {
                 self.restoreMinimizedWindows(for: app, retryCount: retryCount + 1)
             }
             return
